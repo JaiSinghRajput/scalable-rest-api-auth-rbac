@@ -34,18 +34,32 @@ export const LoginPage = () => {
     <div className="grid min-h-screen place-items-center bg-slate-950 px-4 py-8 text-white">
       <Card className="w-full max-w-md border-white/10 bg-white/5 shadow-2xl backdrop-blur">
         <CardHeader>
-          <CardTitle>Sign in</CardTitle>
+          <CardTitle className="text-white">Sign in</CardTitle>
           <CardDescription className="text-slate-300">Use your account to manage tasks.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="grid gap-4" onSubmit={handleSubmit}>
             <div className="grid gap-2">
               <Label htmlFor="email" className="text-slate-200">Email</Label>
-              <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                className="border-white/15 bg-white/10 text-white placeholder:text-slate-400"
+                required
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password" className="text-slate-200">Password</Label>
-              <Input id="password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="border-white/15 bg-white/10 text-white placeholder:text-slate-400"
+                required
+              />
             </div>
             <Button type="submit" className="w-full" disabled={submitting}>
               {submitting ? "Signing in..." : "Login"}

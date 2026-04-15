@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
 import { ApiError } from "../../utils/apiError";
+import { UserModel } from "../user/user.model";
 import { ITask, TaskModel } from "./task.model";
 import { TaskListQuery } from "./task.types";
 
@@ -10,6 +11,10 @@ type CurrentUser = {
 };
 
 const buildScope = (currentUser: CurrentUser): Partial<ITask> => {
+  if (currentUser.role === "ADMIN") {
+    return {};
+  }
+
   return {
     userId: new Types.ObjectId(currentUser.userId)
   };
@@ -68,7 +73,23 @@ export const taskService = {
     }
 
     const tasks = await TaskModel.find(where).sort({ createdAt: -1 });
-    return tasks;
+
+    if (currentUser.role !== "ADMIN") {
+      return tasks;
+    }
+
+    const userIds = Array.from(new Set(tasks.map((task) => task.userId.toString())));
+    const users = await UserModel.find({ _id: { $in: userIds } }, "name email");
+
+    const userMap = new Map(
+      users.map((user) => [user._id.toString(), { id: user._id.toString(), name: user.name, email: user.email }])
+    );
+
+    return tasks.map((task) => {
+      const taskObject = task.toJSON() as Record<string, unknown>;
+      taskObject.owner = userMap.get(task.userId.toString()) ?? null;
+      return taskObject;
+    });
   },
 
   async getTaskById(taskId: string, currentUser: CurrentUser) {

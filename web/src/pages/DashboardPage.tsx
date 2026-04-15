@@ -113,7 +113,7 @@ export const DashboardPage = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between gap-4">
-            <CardTitle>Tasks</CardTitle>
+            <CardTitle>My Tasks</CardTitle>
             <Button variant="outline" onClick={loadTasks} disabled={loading}>
               Refresh
             </Button>

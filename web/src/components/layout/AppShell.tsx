@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { Badge, BadgeCheck, LogOut, Menu, ClipboardList, LayoutDashboard, Users } from "lucide-react";
+import { Badge, BadgeCheck, LogOut, Menu, LayoutDashboard, Users } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Button } from "../ui/button";
@@ -8,8 +8,7 @@ import { cn } from "../../lib/utils";
 import { useAuth } from "../../context/auth-context";
 
 const navItems = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/tasks", label: "Tasks", icon: ClipboardList },
+  { to: "/dashboard", label: "My Tasks", icon: LayoutDashboard },
   { to: "/users", label: "Users", icon: Users, adminOnly: true }
 ];
 

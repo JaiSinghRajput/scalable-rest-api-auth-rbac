@@ -7,7 +7,6 @@ import { LoginPage } from "./pages/LoginPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { UsersPage } from "./pages/UsersPage";
-import { TasksPage } from "./pages/TasksPage";
 
 function App() {
   return (
@@ -20,7 +19,7 @@ function App() {
 
       <Route element={<AuthGate />}>
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/tasks" element={<TasksPage />} />
+        <Route path="/tasks" element={<Navigate to="/dashboard" replace />} />
       </Route>
 
       <Route element={<RoleGate allowedRoles={["ADMIN"]} />}>

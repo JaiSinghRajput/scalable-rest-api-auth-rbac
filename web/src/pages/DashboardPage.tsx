@@ -13,6 +13,7 @@ import type { Task } from "../types";
 
 export const DashboardPage = () => {
   const { user, refreshProfile } = useAuth();
+  const isAdmin = user?.role === "ADMIN";
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [taskSaving, setTaskSaving] = useState(false);
@@ -98,22 +99,28 @@ export const DashboardPage = () => {
               <CardTitle>Quick action</CardTitle>
             </CardHeader>
             <CardContent>
-              <Button onClick={() => setCreateOpen(true)}>New task</Button>
-              <TaskFormDialog
-                key={createOpen ? "create-open" : "create-closed"}
-                submitLabel="Create task"
-                open={createOpen}
-                onOpenChange={setCreateOpen}
-                onSubmit={handleCreate}
-                loading={taskSaving}
-              />
+              {isAdmin ? (
+                <div className="text-sm text-slate-500">Admin view is read-only for task ownership tracking.</div>
+              ) : (
+                <>
+                  <Button onClick={() => setCreateOpen(true)}>New task</Button>
+                  <TaskFormDialog
+                    key={createOpen ? "create-open" : "create-closed"}
+                    submitLabel="Create task"
+                    open={createOpen}
+                    onOpenChange={setCreateOpen}
+                    onSubmit={handleCreate}
+                    loading={taskSaving}
+                  />
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between gap-4">
-            <CardTitle>My Tasks</CardTitle>
+            <CardTitle>{isAdmin ? "All Users Tasks" : "My Tasks"}</CardTitle>
             <Button variant="outline" onClick={loadTasks} disabled={loading}>
               Refresh
             </Button>
@@ -122,12 +129,18 @@ export const DashboardPage = () => {
             {loading ? (
               <div className="py-8 text-center text-sm text-slate-500">Loading tasks...</div>
             ) : (
-              <TaskTable tasks={tasks} onEdit={setEditingTask} onDelete={handleDelete} />
+              <TaskTable
+                tasks={tasks}
+                onEdit={setEditingTask}
+                onDelete={handleDelete}
+                readOnly={isAdmin}
+                separateByOwner={isAdmin}
+              />
             )}
           </CardContent>
         </Card>
 
-        {editingTask ? (
+        {!isAdmin && editingTask ? (
           <TaskFormDialog
             key={editingTask.id}
             submitLabel="Update task"

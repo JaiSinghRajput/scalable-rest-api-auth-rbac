@@ -23,6 +23,11 @@ export type Task = {
   status: TaskStatus;
   priority: TaskPriority;
   userId: string;
+  owner?: {
+    id: string;
+    name: string;
+    email: string;
+  } | null;
   createdAt: string;
   updatedAt: string;
 };

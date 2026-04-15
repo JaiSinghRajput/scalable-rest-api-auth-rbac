@@ -94,7 +94,25 @@ Swagger UI is available at `/api-docs` on the backend.
 
 ## Screenshots
 
-Add product screenshots here when preparing the final submission.
+### Login
+
+![Login](images/login.png)
+
+### User Dashboard
+
+![User Dashboard](images/user_dashboard.png)
+
+### User Creates New Task
+
+![User New Task](images/user_new_task.png)
+
+### Admin Dashboard
+
+![Admin Dashboard](images/admin_dashboard.png)
+
+### Admin Task View
+
+![Admin Task](images/admin_task.png)
 
 
 ## Notes

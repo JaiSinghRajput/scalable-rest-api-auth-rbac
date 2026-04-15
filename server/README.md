@@ -62,6 +62,7 @@ Required:
 - JWT_SECRET
 - JWT_EXPIRES_IN
 - CORS_ORIGIN
+- ADMIN_KEY
 
 Optional (admin seed script):
 - ADMIN_EMAIL

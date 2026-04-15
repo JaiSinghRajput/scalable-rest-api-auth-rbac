@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { env } from "../../config/env";
 import { ApiError } from "../../utils/apiError";
 import { signAccessToken } from "../../utils/jwt";
 import { IUser, UserModel } from "../user/user.model";
@@ -24,6 +25,7 @@ export const authService = {
     email: string;
     password: string;
     role?: UserRole;
+    adminKey?: string;
   }): Promise<AuthPayload> {
     const existingUser = await UserModel.findOne({ email: input.email.toLowerCase() });
 
@@ -32,12 +34,17 @@ export const authService = {
     }
 
     const passwordHash = await bcrypt.hash(input.password, 12);
+    const role = input.role ?? "USER";
+
+    if (role === "ADMIN" && input.adminKey !== env.ADMIN_KEY) {
+      throw new ApiError("Invalid admin key", 403);
+    }
 
     const user = await UserModel.create({
       name: input.name,
       email: input.email.toLowerCase(),
       passwordHash,
-      role: input.role ?? "USER"
+      role
     });
 
     const accessToken = signAccessToken({

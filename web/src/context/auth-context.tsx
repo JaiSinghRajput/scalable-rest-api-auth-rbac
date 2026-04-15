@@ -9,7 +9,8 @@ type AuthContextValue = {
   token: string | null;
   loading: boolean;
   login: (input: { email: string; password: string }) => Promise<void>;
-  register: (input: { name: string; email: string; password: string; role?: string }) => Promise<void>;
+  register: (input: { name: string; email: string; password: string }) => Promise<void>;
+  registerAdmin: (input: { name: string; email: string; password: string; adminKey: string }) => Promise<void>;
   logout: () => void;
   refreshProfile: () => Promise<void>;
 };
@@ -58,10 +59,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     toast.success("Logged in successfully");
   }, []);
 
-  const register = useCallback(async (input: { name: string; email: string; password: string; role?: string }) => {
+  const register = useCallback(async (input: { name: string; email: string; password: string }) => {
     const payload = await authApi.register(input);
     applyAuth(payload, setUser, setTokenState);
     toast.success("Account created successfully");
+  }, []);
+
+  const registerAdmin = useCallback(async (input: { name: string; email: string; password: string; adminKey: string }) => {
+    const payload = await authApi.registerAdmin(input);
+    applyAuth(payload, setUser, setTokenState);
+    toast.success("Admin account created successfully");
   }, []);
 
   const logout = useCallback(() => {
@@ -82,7 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, refreshProfile }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, registerAdmin, logout, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );

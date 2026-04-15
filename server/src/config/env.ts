@@ -9,7 +9,8 @@ const envSchema = z.object({
   MONGO_URI: z.string().min(1, "MONGO_URI is required"),
   JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
   JWT_EXPIRES_IN: z.string().default("1d"),
-  CORS_ORIGIN: z.string().default("http://localhost:5173")
+  CORS_ORIGIN: z.string().default("http://localhost:5173"),
+  ADMIN_KEY: z.string().min(1, "ADMIN_KEY is required")
 });
 
 const parsed = envSchema.safeParse(process.env);

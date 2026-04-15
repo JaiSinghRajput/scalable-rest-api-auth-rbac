@@ -96,10 +96,6 @@ Swagger UI is available at `/api-docs` on the backend.
 
 Add product screenshots here when preparing the final submission.
 
-## Deployment Links
-
-- Frontend: add your deployed URL here
-- Backend: add your deployed URL here
 
 ## Notes
 

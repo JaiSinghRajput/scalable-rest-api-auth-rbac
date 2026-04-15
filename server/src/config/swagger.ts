@@ -30,7 +30,8 @@ export const swaggerSpec = swaggerJsdoc({
             name: { type: "string", minLength: 2 },
             email: { type: "string", format: "email" },
             password: { type: "string", minLength: 8 },
-            role: { type: "string", enum: ["USER", "ADMIN"] }
+            role: { type: "string", enum: ["USER", "ADMIN"] },
+            adminKey: { type: "string" }
           }
         },
         LoginInput: {

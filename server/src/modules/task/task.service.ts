@@ -10,10 +10,6 @@ type CurrentUser = {
 };
 
 const buildScope = (currentUser: CurrentUser): Partial<ITask> => {
-  if (currentUser.role === "ADMIN") {
-    return {};
-  }
-
   return {
     userId: new Types.ObjectId(currentUser.userId)
   };
@@ -26,7 +22,7 @@ const withTaskAccess = async (taskId: string, currentUser: CurrentUser) => {
     throw new ApiError("Task not found", 404);
   }
 
-  if (currentUser.role !== "ADMIN" && task.userId.toString() !== currentUser.userId) {
+  if (task.userId.toString() !== currentUser.userId) {
     throw new ApiError("Forbidden", 403);
   }
 

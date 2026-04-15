@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { Badge, BadgeCheck, LogOut, Menu, ClipboardList, LayoutDashboard } from "lucide-react";
+import { Badge, BadgeCheck, LogOut, Menu, ClipboardList, LayoutDashboard, Users } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Button } from "../ui/button";
@@ -9,11 +9,13 @@ import { useAuth } from "../../context/auth-context";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/tasks", label: "Tasks", icon: ClipboardList }
+  { to: "/tasks", label: "Tasks", icon: ClipboardList },
+  { to: "/users", label: "Users", icon: Users, adminOnly: true }
 ];
 
 export const AppShell = ({ children }: { children: ReactNode }) => {
   const { user, logout } = useAuth();
+  const visibleNavItems = navItems.filter((item) => !item.adminOnly || user?.role === "ADMIN");
 
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_100%)] text-slate-950">
@@ -58,7 +60,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
           </div>
           <Separator className="mb-4" />
           <nav className="grid gap-2">
-            {navItems.map((item) => {
+            {visibleNavItems.map((item) => {
               const Icon = item.icon;
               return (
                 <NavLink

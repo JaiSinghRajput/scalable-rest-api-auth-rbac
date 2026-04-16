@@ -86,9 +86,12 @@ export const taskService = {
     );
 
     return tasks.map((task) => {
-      const taskObject = task.toJSON() as Record<string, unknown>;
-      taskObject.owner = userMap.get(task.userId.toString()) ?? null;
-      return taskObject;
+      const taskObject = task.toJSON();
+
+      return {
+        ...taskObject,
+        owner: userMap.get(task.userId.toString()) ?? null
+      };
     });
   },
 
